@@ -103,6 +103,31 @@ function fmtMast(ms) {
   return `${y}.${mo}.${d}`;
 }
 
+const WEEK = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+
+function cardWhen(start) {
+  if (!start) return '日期待公布';
+  const shifted = new Date(start.ms + 8 * 3600 * 1000);
+  const y = shifted.getUTCFullYear();
+  const mo = String(shifted.getUTCMonth() + 1).padStart(2, '0');
+  const d = String(shifted.getUTCDate()).padStart(2, '0');
+  const time = start.hasTime
+    ? ` ${String(shifted.getUTCHours()).padStart(2, '0')}:${String(shifted.getUTCMinutes()).padStart(2, '0')}`
+    : '';
+  return `${y}.${mo}.${d}（${WEEK[shifted.getUTCDay()]}）${time}`;
+}
+
+function countdown(race, nowMs) {
+  if (race.outcome === 'cancel') return '已取消';
+  if (race.outcome === 'off') return '本年度不办';
+  if (!race.start) return '日期待公布';
+  const day = 86400000;
+  const n = Math.floor((race.start.ms + 8 * 3600 * 1000) / day) - Math.floor((nowMs + 8 * 3600 * 1000) / day);
+  if (n > 0) return `距开赛 ${n} 天`;
+  if (n === 0) return '今日开跑';
+  return '已开跑';
+}
+
 function assess(race, now) {
   if (race.outcome === 'cancel') return { kind: 'cancel', label: '取消', open: false };
   if (race.outcome === 'off') return { kind: 'cancel', label: '不办', open: false };
@@ -166,33 +191,23 @@ function parseRaces(text) {
 function page(title, inner) {
   return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="${esc(BRAND)}。近期半程按开跑日排列，还能报名按上海时间对报名截止自动判断。"><title>${esc(title)}</title><link rel="stylesheet" href="style.css"></head><body>
 ${inner}
-<footer class="wrap foot">报名是否开放，用上海时间对每场写死的起止时间自动比较。只写日期的判断时刻按当天 12:00。没有报名链接标「待公布」。报名以组委会最新公告为准。</footer></body></html>`;
+<footer class="wrap foot"><p class="colophon"><span class="rule" aria-hidden="true"></span>数据来源：赛事官网及公开信息<span class="rule" aria-hidden="true"></span></p><p>报名是否开放，用上海时间对每场写死的起止时间自动比较。只写日期的判断时刻按当天 12:00。没有报名链接标「待公布」。报名以组委会最新公告为准。</p></footer></body></html>`;
 }
 
-function raceCard(r, { rich = false } = {}) {
+const PIN = '<svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1.2a4.3 4.3 0 0 0-4.3 4.3C3.7 9 8 14.8 8 14.8s4.3-5.8 4.3-9.3A4.3 4.3 0 0 0 8 1.2zm0 5.8a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2z"/></svg>';
+const CAL = '<svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M4.5 1h1.4v1.6h4.2V1h1.4v1.6H14v11.2H2V2.6h2.5V1zM3.4 6.2v6.2h9.2V6.2H3.4z"/></svg>';
+
+function raceCard(r, nowMs) {
   const link = r.entry
     ? `<a class="go" href="${esc(r.entry)}" target="_blank" rel="noopener">报名入口</a>`
-    : (r.source ? `<a class="go ghost" href="${esc(r.source)}" target="_blank" rel="noopener">官方页</a>` : '<span></span>');
-  const facts = rich ? `<dl class="facts">
-<div><dt>开跑</dt><dd>${esc(r.start ? r.start.label : '待公布')}</dd></div>
-<div><dt>地点</dt><dd>${esc(r.place)}</dd></div>
-<div><dt>费用</dt><dd>${esc(r.fee)}</dd></div>
-<div><dt>报名窗口</dt><dd>${esc(windowText(r))}</dd></div>
-</dl>` : `<p class="win">${esc(r.start ? r.start.short : '')}${r.start ? ' 开跑 · ' : ''}${esc(windowText(r))}</p>`;
-  return `<article class="card ${esc(r.status.kind)}" id="${esc(r.id)}"><div class="meta"><span class="tag ${esc(r.status.kind)}">${esc(r.status.label)}</span><span class="when">${esc(r.place)}</span></div><h3>${esc(r.name)}</h3>${facts}<p>${esc(r.summary)}</p><div class="cf"><span>${esc(r.fee)}</span>${link}</div></article>`;
+    : (r.source ? `<a class="go" href="${esc(r.source)}" target="_blank" rel="noopener">官方页</a>` : '');
+  return `<article class="card ${esc(r.status.kind)}" id="${esc(r.id)}"><div class="card-top"><span class="tag">${esc(r.status.label)}</span><span class="card-date">${esc(cardWhen(r.start))}</span></div><h3>${esc(r.name)}</h3><p class="place">${PIN}${esc(r.place)}</p><dl class="stats"><div><dt>半程</dt><dd>21.0975公里</dd></div><div><dt>费用</dt><dd>${esc(r.fee)}</dd></div><div><dt>报名状态</dt><dd class="st">${esc(r.status.label)}</dd></div></dl><p class="sum">${esc(r.summary)}</p><div class="footline"><p class="win">★ ${esc(windowText(r))}</p><div class="aside"><span class="away">${CAL}${esc(countdown(r, nowMs))}</span>${link}</div></div></article>`;
 }
 
-function grouped(races) {
+function raceList(races, nowMs) {
   const dated = races.filter((r) => r.start).sort((a, b) => a.start.ms - b.start.ms);
   const rest = races.filter((r) => !r.start);
-  const g = [];
-  for (const r of dated) {
-    const last = g[g.length - 1];
-    if (!last || last.key !== r.start.dayKey) g.push({ key: r.start.dayKey, label: r.start.dayLabel, races: [r] });
-    else last.races.push(r);
-  }
-  if (rest.length) g.push({ key: 'none', label: '本年度不办', races: rest });
-  return g.map((group) => `<section class="day"><h2 class="dh">${esc(group.label)}</h2><div class="grid">${group.races.map((r) => raceCard(r)).join('')}</div></section>`).join('');
+  return `<div class="grid">${[...dated, ...rest].map((r) => raceCard(r, nowMs)).join('')}</div>`;
 }
 
 function shell(active, mastDate, lede, body) {
@@ -222,16 +237,16 @@ const srcHtml = srcItems.length ? `<h2 class="sec">依据</h2><ul class="srcs">$
 const recent = shell(
   'recent',
   fmtMast(now.ms),
-  esc(fm.lead || ''),
-  `<p class="count">${races.length} 场，按开跑日排列。判断时间 ${esc(clock)}。已截止、待抽签、已出签、取消都在这里。</p>${grouped(races)}${noteHtml}${srcHtml}`,
+  `${races.length} 场，按开跑日排列。判断时间 ${esc(clock)}。`,
+  `${raceList(races, now.ms)}${noteHtml}${srcHtml}`,
 );
 const openBody = openRaces.length
-  ? `<div class="grid rich">${openRaces.map((r) => raceCard(r, { rich: true })).join('')}</div>${noteHtml}`
+  ? `${raceList(openRaces, now.ms)}${noteHtml}`
   : `<div class="empty">这个时间点，名单里没有仍处在报名窗口内的半马。</div>`;
 const open = shell(
   'open',
   fmtMast(now.ms),
-  `只列出报名截止晚于当前上海时间的半马。判断时间 ${esc(clock)}。有报名网址的给出入口；窗口还开着但没有公开报名链接的，标「待公布」，并链到官方页。`,
+  `报名截止仍晚于 ${esc(clock)} 的半马。没有公开报名链接的标「待公布」。`,
   openBody,
 );
 
