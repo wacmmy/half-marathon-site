@@ -95,6 +95,14 @@ function fmtNow(ms) {
   return `${y}年${mo}月${d}日 ${hh}:${mm}`;
 }
 
+function fmtMast(ms) {
+  const shifted = new Date(ms + 8 * 3600 * 1000);
+  const y = shifted.getUTCFullYear();
+  const mo = String(shifted.getUTCMonth() + 1).padStart(2, '0');
+  const d = String(shifted.getUTCDate()).padStart(2, '0');
+  return `${y}.${mo}.${d}`;
+}
+
 function assess(race, now) {
   if (race.outcome === 'cancel') return { kind: 'cancel', label: '取消', open: false };
   if (race.outcome === 'off') return { kind: 'cancel', label: '不办', open: false };
@@ -155,13 +163,9 @@ function parseRaces(text) {
   return races;
 }
 
-function page(title, active, inner) {
-  const nav = (id, href, text) => `<a href="${href}" class="${active === id ? 'on' : ''}">${text}</a>`;
+function page(title, inner) {
   return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="${esc(BRAND)}。近期半程按开跑日排列，还能报名按上海时间对报名截止自动判断。"><title>${esc(title)}</title><link rel="stylesheet" href="style.css"></head><body>
-<header class="top"><div class="wrap nav"><a class="brand" href="index.html">${esc(BRAND)}</a><nav>
-${nav('recent', 'index.html', '近期赛事')}${nav('open', 'open.html', '还能报名')}</nav></div></header>
-<div class="finish" aria-hidden="true"></div>
-<main>${inner}</main>
+${inner}
 <footer class="wrap foot">报名是否开放，用上海时间对每场写死的起止时间自动比较。只写日期的判断时刻按当天 12:00。没有报名链接标「待公布」。报名以组委会最新公告为准。</footer></body></html>`;
 }
 
@@ -191,8 +195,13 @@ function grouped(races) {
   return g.map((group) => `<section class="day"><h2 class="dh">${esc(group.label)}</h2><div class="grid">${group.races.map((r) => raceCard(r)).join('')}</div></section>`).join('');
 }
 
-function shell(kicker, h1, lede, body) {
-  return `<section class="hero"><div class="wrap"><p class="kicker">${kicker}</p><h1>${esc(h1)}</h1><p class="lede">${lede}</p></div></section><div class="wrap sheet">${body}</div>`;
+function shell(active, mastDate, lede, body) {
+  const tab = (id, href, text) => `<a href="${href}" class="${active === id ? 'on' : ''}">${text}</a>`;
+  return `<header class="mast"><div class="wrap mast-row"><p class="eyebrow"><span class="rule" aria-hidden="true"></span>晨报米纸 · 赛事指南<span class="rule" aria-hidden="true"></span></p><p class="dateline">${mastDate}</p></div>
+<h1 class="wrap">${esc(BRAND)}</h1>
+<div class="mark" aria-hidden="true"></div>
+<nav class="tabs wrap" aria-label="分页">${tab('recent', 'index.html', '近期赛事')}${tab('open', 'open.html', '还能报名')}</nav></header>
+<main><div class="wrap sheet"><p class="lede">${lede}</p>${body}</div></main>`;
 }
 
 const now = nowShanghai();
@@ -211,24 +220,24 @@ const noteHtml = notes.length ? `<div class="note">${notes.map((n) => `<p>${esc(
 const srcHtml = srcItems.length ? `<h2 class="sec">依据</h2><ul class="srcs">${srcItems.map((x) => `<li>${esc(x).replace(/(https?:\/\/[^\s<，。）)]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')}</li>`).join('')}</ul>` : '';
 
 const recent = shell(
-  `近期赛事 · 判断时间 ${esc(clock)}`,
-  BRAND,
+  'recent',
+  fmtMast(now.ms),
   esc(fm.lead || ''),
-  `<h2 class="sec" id="cal">近期赛事</h2><p class="count">${races.length} 场，按开跑日排列。已截止、待抽签、已出签、取消都在这里。</p>${grouped(races)}${noteHtml}${srcHtml}`,
+  `<p class="count">${races.length} 场，按开跑日排列。判断时间 ${esc(clock)}。已截止、待抽签、已出签、取消都在这里。</p>${grouped(races)}${noteHtml}${srcHtml}`,
 );
 const openBody = openRaces.length
   ? `<div class="grid rich">${openRaces.map((r) => raceCard(r, { rich: true })).join('')}</div>${noteHtml}`
   : `<div class="empty">这个时间点，名单里没有仍处在报名窗口内的半马。</div>`;
 const open = shell(
-  `还能报名 · 判断时间 ${esc(clock)}`,
-  '还能报名',
-  '只列出报名截止晚于当前上海时间的半马。有报名网址的给出入口；窗口还开着但没有公开报名链接的，标「待公布」，并链到官方页。',
+  'open',
+  fmtMast(now.ms),
+  `只列出报名截止晚于当前上海时间的半马。判断时间 ${esc(clock)}。有报名网址的给出入口；窗口还开着但没有公开报名链接的，标「待公布」，并链到官方页。`,
   openBody,
 );
 
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
 fs.writeFileSync(path.join(OUT, 'style.css'), fs.readFileSync('src/style.css', 'utf8'));
-fs.writeFileSync(path.join(OUT, 'index.html'), page(BRAND, 'recent', recent));
-fs.writeFileSync(path.join(OUT, 'open.html'), page(`还能报名 · ${BRAND}`, 'open', open));
+fs.writeFileSync(path.join(OUT, 'index.html'), page(BRAND, recent));
+fs.writeFileSync(path.join(OUT, 'open.html'), page(`还能报名 · ${BRAND}`, open));
 console.log(`构建完成：近期 ${races.length} 场，还能报名 ${openRaces.length} 场，判断时间 ${fmtNow(now.ms)} → ${OUT}/`);
