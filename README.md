@@ -4,4 +4,4 @@
 
 文件名：`content/YYYY-MM-DD.md`。frontmatter：`date`、`headline`、`lead`。正文固定四段：`要点`、`侧栏`、`赛事`、`来源`，可选 `附注`。赛事按日期分组，未知的报名费、名额、抽签日写「待公布」。
 
-GitHub Pages 由 `.github/workflows/pages.yml` 在推送到 `main` 后构建并部署。仓库 Settings → Pages 的来源需要是 GitHub Actions。
+GitHub Pages 由 `.github/workflows/pages.yml` 在推送到 `main` 后构建，并把 `dist/` 推到 `gh-pages` 分支。仓库 Settings → Pages 的来源是 Deploy from a branch：`gh-pages` / `/ (root)`。这个流程不使用 `github-pages` environment。
