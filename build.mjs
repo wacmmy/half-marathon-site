@@ -212,7 +212,7 @@ function raceList(races, nowMs) {
 
 function shell(active, mastDate, lede, body) {
   const tab = (id, href, text) => `<a href="${href}" class="${active === id ? 'on' : ''}">${text}</a>`;
-  return `<header class="mast"><div class="wrap mast-row"><p class="eyebrow"><span class="rule" aria-hidden="true"></span>晨报米纸 · 赛事指南<span class="rule" aria-hidden="true"></span></p><p class="dateline">${mastDate}</p></div>
+  return `<header class="mast"><div class="wrap mast-row"><p class="dateline">${mastDate}</p></div>
 <h1 class="wrap">${esc(BRAND)}</h1>
 <div class="mark" aria-hidden="true"></div>
 <nav class="tabs wrap" aria-label="分页">${tab('recent', 'index.html', '近期赛事')}${tab('open', 'open.html', '还能报名')}</nav></header>
@@ -253,6 +253,9 @@ const open = shell(
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
 fs.writeFileSync(path.join(OUT, 'style.css'), fs.readFileSync('src/style.css', 'utf8'));
+fs.mkdirSync(path.join(OUT, 'fonts'), { recursive: true });
+fs.copyFileSync('src/fonts/ma-shan-zheng.ttf', path.join(OUT, 'fonts/ma-shan-zheng.ttf'));
+fs.copyFileSync('src/fonts/OFL.txt', path.join(OUT, 'fonts/OFL.txt'));
 fs.writeFileSync(path.join(OUT, 'index.html'), page(BRAND, recent));
 fs.writeFileSync(path.join(OUT, 'open.html'), page(`还能报名 · ${BRAND}`, open));
 console.log(`构建完成：近期 ${races.length} 场，还能报名 ${openRaces.length} 场，判断时间 ${fmtNow(now.ms)} → ${OUT}/`);
