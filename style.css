@@ -1,0 +1,27 @@
+:root{--bg:#f7f3ea;--ink:#1f1d1a;--mute:#6f685c;--line:#e2dacb;--card:#fffdf8;--cn:#b5452f;--intl:#2f5d8a;--ochre:#8a6a2f;--cancel:#6b3030}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 -apple-system,"PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif}
+a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+h1,h2,h3,.brand{font-family:"Noto Serif CJK SC","Songti SC","Source Han Serif SC",Georgia,serif}
+.top{border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:9}.nav{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{font-size:22px;font-weight:700}.nav nav a{margin-left:22px;color:var(--mute)}.nav nav a.on,.nav nav a:hover{color:var(--ink);border-bottom:2px solid var(--ink);padding-bottom:4px}
+.hero{padding:44px 0 24px;border-bottom:1px solid var(--line)}.kicker{color:var(--cn);font-size:14px;letter-spacing:.08em}
+.hero h1{font-size:40px;line-height:1.3;margin:10px 0 14px}.lede{color:#3d3a34;font-size:17px}
+.points{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 22px;margin-top:18px}.ph{font-weight:600;color:var(--mute);font-size:14px}.points ul{margin:6px 0;padding-left:20px}
+.subs{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:24px 0}.sec{font-size:26px;margin:36px 0 8px}
+.dh{font-size:18px;color:var(--mute);margin:24px 0 12px;border-bottom:1px solid var(--line);padding-bottom:6px}
+/* 按日分组的卡片：auto-fit 会收起空列。手机强制单列。 */
+.grid{display:grid;grid-template-columns:1fr;gap:16px}
+.card{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;transition:.15s}.card:hover{box-shadow:0 4px 14px rgba(0,0,0,.07);transform:translateY(-2px)}
+.card h3{font-size:19px;margin:8px 0;line-height:1.4}.card p{color:#4a463f;font-size:14px;margin:0 0 12px}
+.cf{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:13px;color:var(--mute)}.read{color:var(--ink);font-weight:600}
+.meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--mute)}.when{white-space:nowrap}.tag{color:#fff;border-radius:4px;padding:1px 8px;font-size:12px}
+.tag.open{background:var(--cn)}.tag.draw,.tag.drawn{background:var(--intl)}.tag.closed{background:var(--mute)}.tag.pending{background:var(--ochre)}.tag.cancel{background:var(--cancel)}
+.card.side{border-top:3px solid var(--cn)}.card.side.draw{border-top-color:var(--intl)}
+.note{margin-top:22px;color:#4a463f;font-size:14px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px}.note p{margin:0 0 8px}.note p:last-child{margin:0}
+.srcs{padding-left:18px;color:var(--mute);font-size:13px;word-break:break-all}.srcs a,.note a{color:var(--intl);text-decoration:underline}
+.back{display:inline-block;margin-top:30px;color:var(--mute)}.foot{color:var(--mute);font-size:13px;padding:40px 20px;border-top:1px solid var(--line);margin-top:40px}
+@media(max-width:700px){.subs{grid-template-columns:1fr}.hero h1{font-size:28px}.nav nav a{margin-left:12px;font-size:14px}}
+/* 平板 / iPad（含横屏）：轨道至少 340px，在 1080 内容列里最多两列 */
+@media(min-width:701px){.grid{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}}
+/* 桌面：内容列约 1040px 时最多三列；条目不足时 auto-fit 仍会收起空列 */
+@media(min-width:1200px){.grid{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}}
