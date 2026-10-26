@@ -5,7 +5,13 @@
   --accent:#B54A3C;
   --soft:#E8DFD0;
   --serif:"Songti SC","Noto Serif CJK SC","Source Han Serif SC","STSong","PMingLiU","SimSun",serif;
-  --display:"Kaiti SC","STKaiti","KaiTi","楷体","Songti SC",serif;
+}
+@font-face{
+  font-family:"Ma Shan Zheng";
+  src:url("fonts/ma-shan-zheng.ttf") format("truetype");
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
 }
 *{box-sizing:border-box}
 body{margin:0;background-color:var(--bg);background-image:radial-gradient(rgba(28,25,23,.035) .6px,transparent .7px);background-size:3px 3px;color:var(--ink);font:16px/1.65 var(--serif)}
@@ -14,11 +20,10 @@ a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .wrap{max-width:680px;margin:0 auto;padding:0 16px}
 h1,h2,h3{font-family:var(--serif);font-weight:700}
 .mast{padding-bottom:4px}
-.mast-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:18px}
-.eyebrow,.dateline{margin:0;color:var(--ink);font-size:13px;letter-spacing:.12em}
-.eyebrow{display:flex;align-items:center;gap:8px;letter-spacing:.14em}
+.mast-row{display:flex;justify-content:flex-end;align-items:center;padding-top:16px}
+.dateline{margin:0;color:var(--ink);font-family:var(--serif);font-size:13px;letter-spacing:.08em}
 .rule{width:22px;height:1px;background:var(--ink);flex:0 0 auto}
-.mast h1{margin:8px auto 0;padding-left:4px;padding-right:4px;text-align:center;font-family:var(--display);font-weight:700;font-size:clamp(24px,7.4vw,56px);line-height:1.12;letter-spacing:.01em;white-space:nowrap}
+.mast h1{margin:4px auto 0;padding-left:2px;padding-right:2px;text-align:center;font-family:"Ma Shan Zheng","Kaiti SC","STKaiti",serif;font-weight:400;font-size:min(calc((100vw - 20px) / 11.2),68px);line-height:1.15;letter-spacing:0;white-space:nowrap;color:var(--ink)}
 .mark{width:7px;height:7px;margin:10px auto 0;border-radius:50%;background:var(--accent)}
 .tabs{display:flex;margin-top:12px;border:1px solid var(--ink);background:transparent;padding:0}
 .tabs a{position:relative;flex:1;min-height:48px;display:flex;align-items:center;justify-content:center;padding:10px 8px 12px;color:var(--ink);font-family:var(--serif);font-weight:700;font-size:17px;text-decoration:none;background:transparent}
@@ -58,8 +63,6 @@ h1,h2,h3{font-family:var(--serif);font-weight:700}
 .foot{margin-top:22px;padding:16px 16px 32px;text-align:center;color:var(--muted);font-size:13px;line-height:1.6}
 .colophon{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 0 8px;color:var(--ink);letter-spacing:.08em}
 @media(max-width:700px){
-  .mast-row{align-items:flex-start;gap:8px}
-  .eyebrow{letter-spacing:.06em}
   .card h3{font-size:22px}
   .footline{flex-direction:column;align-items:stretch}
   .aside{justify-content:space-between}
