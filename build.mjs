@@ -4,7 +4,7 @@ import path from 'node:path';
 
 const SRC = 'content';
 const OUT = 'dist';
-const BRAND = '上海及周边地区半马赛事';
+const BRAND = '上海及周边地区半程与10公里';
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 function frontmatter(raw) {
@@ -166,9 +166,12 @@ function parseRaces(text) {
       const kv = kvLines(j < 0 ? '' : rb.slice(j + 1));
       for (const f of ['place', 'fee', 'summary']) if (!kv[f]) throw new Error(`${name} 缺少 ${f}`);
       if (!kv.start && !kv.outcome) throw new Error(`${name} 需要 start 或 outcome`);
+      const km = kv.km || '21.0975';
+      if (km !== '10' && km !== '21.0975') throw new Error(`${name} 的 km 只能是 10 或 21.0975`);
       races.push({
         name,
         id: kv.id || name,
+        km,
         place: kv.place,
         fee: kv.fee,
         summary: kv.summary,
@@ -189,7 +192,7 @@ function parseRaces(text) {
 }
 
 function page(title, inner) {
-  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="${esc(BRAND)}。近期半程按开跑日排列，还能报名按上海时间对报名截止自动判断。"><title>${esc(title)}</title><link rel="stylesheet" href="style.css"></head><body>
+  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="${esc(BRAND)}。近期半程和 10 公里按开跑日从远到近排列，还能报名按上海时间对报名截止自动判断。"><title>${esc(title)}</title><link rel="stylesheet" href="style.css"></head><body>
 ${inner}
 <footer class="wrap foot"><p class="colophon"><span class="rule" aria-hidden="true"></span>数据来源：赛事官网及公开信息<span class="rule" aria-hidden="true"></span></p><p>报名是否开放，用上海时间对每场写死的起止时间自动比较。只写日期的判断时刻按当天 12:00。没有报名链接标「待公布」。报名以组委会最新公告为准。</p></footer></body></html>`;
 }
@@ -201,7 +204,9 @@ function raceCard(r, nowMs) {
   const link = r.entry
     ? `<a class="go" href="${esc(r.entry)}" target="_blank" rel="noopener">报名入口</a>`
     : (r.source ? `<a class="go" href="${esc(r.source)}" target="_blank" rel="noopener">官方页</a>` : '');
-  return `<article class="card ${esc(r.status.kind)}" id="${esc(r.id)}"><div class="card-top"><span class="tag">${esc(r.status.label)}</span><span class="card-date">${esc(cardWhen(r.start))}</span></div><h3>${esc(r.name)}</h3><p class="place">${PIN}${esc(r.place)}</p><dl class="stats"><div><dt>半程</dt><dd>21.0975公里</dd></div><div><dt>费用</dt><dd>${esc(r.fee)}</dd></div><div><dt>报名状态</dt><dd class="st">${esc(r.status.label)}</dd></div></dl><p class="sum">${esc(r.summary)}</p><div class="footline"><p class="win">★ ${esc(windowText(r))}</p><div class="aside"><span class="away">${CAL}${esc(countdown(r, nowMs))}</span>${link}</div></div></article>`;
+  const distName = r.km === '10' ? '10公里' : '半程';
+  const distLen = r.km === '10' ? '10公里' : '21.0975公里';
+  return `<article class="card ${esc(r.status.kind)}" id="${esc(r.id)}"><div class="card-top"><span class="tag">${esc(r.status.label)}</span><span class="card-date">${esc(cardWhen(r.start))}</span></div><h3>${esc(r.name)}</h3><p class="place">${PIN}${esc(r.place)}</p><dl class="stats"><div><dt>${distName}</dt><dd>${distLen}</dd></div><div><dt>费用</dt><dd>${esc(r.fee)}</dd></div><div><dt>报名状态</dt><dd class="st">${esc(r.status.label)}</dd></div></dl><p class="sum">${esc(r.summary)}</p><div class="footline"><p class="win">★ ${esc(windowText(r))}</p><div class="aside"><span class="away">${CAL}${esc(countdown(r, nowMs))}</span>${link}</div></div></article>`;
 }
 
 function raceList(races, nowMs) {
@@ -215,6 +220,7 @@ function shell(active, mastDate, lede, body) {
   return `<header class="mast"><div class="wrap mast-row"><p class="dateline">${mastDate}</p></div>
 <h1 class="title wrap"><img src="title-ink.png" alt="" width="2574" height="532"><span class="sr-only">${esc(BRAND)}</span></h1>
 <div class="mark" aria-hidden="true"></div>
+<p class="scope wrap">半程 · 10公里</p>
 <nav class="tabs wrap" aria-label="分页">${tab('recent', 'index.html', '近期赛事')}${tab('open', 'open.html', '还能报名')}</nav></header>
 <main><div class="wrap sheet"><p class="lede">${lede}</p>${body}</div></main>`;
 }
@@ -227,7 +233,7 @@ const { fm, body } = frontmatter(raw);
 const secs = sections(body);
 if (!secs['赛事']) throw new Error('缺少 ## 赛事');
 const races = parseRaces(secs['赛事']).map((r) => ({ ...r, status: assess(r, now.ms) }));
-const openRaces = races.filter((r) => r.status.open).sort((a, b) => (a.regEnd?.ms || 0) - (b.regEnd?.ms || 0));
+const openRaces = races.filter((r) => r.status.open);
 const notes = (secs['附注'] || '').split('\n').map((l) => l.trim()).filter(Boolean);
 const srcItems = bullets(secs['来源'] || '');
 const clock = `${fmtNow(now.ms)}（上海${now.pinned && now.assumedNoon ? '，只给了日期，按 12:00' : ''}）`;
@@ -237,16 +243,16 @@ const srcHtml = srcItems.length ? `<h2 class="sec">依据</h2><ul class="srcs">$
 const recent = shell(
   'recent',
   fmtMast(now.ms),
-  `${races.length} 场，按开跑日排列。判断时间 ${esc(clock)}。`,
+  `${races.length} 场半程和 10 公里，开跑日远的在前。判断时间 ${esc(clock)}。`,
   `${raceList(races, now.ms)}${noteHtml}${srcHtml}`,
 );
 const openBody = openRaces.length
   ? `${raceList(openRaces, now.ms)}${noteHtml}`
-  : `<div class="empty">这个时间点，名单里没有仍处在报名窗口内的半马。</div>`;
+  : `<div class="empty">这个时间点，名单里没有仍处在报名窗口内的半程或 10 公里。</div>`;
 const open = shell(
   'open',
   fmtMast(now.ms),
-  `报名截止仍晚于 ${esc(clock)} 的半马。没有公开报名链接的标「待公布」。`,
+  `报名截止仍晚于 ${esc(clock)} 的半程和 10 公里。没有公开报名链接的标「待公布」。`,
   openBody,
 );
 

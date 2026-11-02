@@ -20,6 +20,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:700}
 .title img{display:block;width:100%;height:auto}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .mark{width:7px;height:7px;margin:10px auto 0;border-radius:50%;background:var(--accent)}
+.scope{margin:8px 0 0;text-align:center;font-weight:700;letter-spacing:.18em;font-size:14px}
 .tabs{display:flex;margin-top:12px;border:1px solid var(--ink);background:transparent;padding:0}
 .tabs a{position:relative;flex:1;min-height:48px;display:flex;align-items:center;justify-content:center;padding:10px 8px 12px;color:var(--ink);font-family:var(--serif);font-weight:700;font-size:17px;text-decoration:none;background:transparent}
 .tabs a+a{border-left:1px solid var(--ink)}
