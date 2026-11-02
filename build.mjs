@@ -204,15 +204,18 @@ function raceCard(r, nowMs) {
   const link = r.entry
     ? `<a class="go" href="${esc(r.entry)}" target="_blank" rel="noopener">报名入口</a>`
     : (r.source ? `<a class="go" href="${esc(r.source)}" target="_blank" rel="noopener">官方页</a>` : '');
-  const distName = r.km === '10' ? '10公里' : '半程';
-  const distLen = r.km === '10' ? '10公里' : '21.0975公里';
-  return `<article class="card ${esc(r.status.kind)}" id="${esc(r.id)}"><div class="card-top"><span class="tag">${esc(r.status.label)}</span><span class="card-date">${esc(cardWhen(r.start))}</span></div><h3>${esc(r.name)}</h3><p class="place">${PIN}${esc(r.place)}</p><dl class="stats"><div><dt>${distName}</dt><dd>${distLen}</dd></div><div><dt>费用</dt><dd>${esc(r.fee)}</dd></div><div><dt>报名状态</dt><dd class="st">${esc(r.status.label)}</dd></div></dl><p class="sum">${esc(r.summary)}</p><div class="footline"><p class="win">★ ${esc(windowText(r))}</p><div class="aside"><span class="away">${CAL}${esc(countdown(r, nowMs))}</span>${link}</div></div></article>`;
+  const ten = r.km === '10';
+  const distName = ten ? '10公里' : '半程';
+  const distLen = ten ? '10公里' : '21.0975公里';
+  const dist = ten ? 'km-10' : 'km-half';
+  return `<article class="card ${esc(r.status.kind)} ${dist}" id="${esc(r.id)}"><div class="card-top"><span class="tag">${esc(r.status.label)}</span><span class="card-date">${esc(cardWhen(r.start))}</span></div><div class="name"><span class="dist">${distName}</span><h3>${esc(r.name)}</h3></div><p class="place">${PIN}${esc(r.place)}</p><dl class="stats"><div><dt>${distName}</dt><dd>${distLen}</dd></div><div><dt>费用</dt><dd>${esc(r.fee)}</dd></div><div><dt>报名状态</dt><dd class="st">${esc(r.status.label)}</dd></div></dl><p class="sum">${esc(r.summary)}</p><div class="footline"><p class="win">★ ${esc(windowText(r))}</p><div class="aside"><span class="away">${CAL}${esc(countdown(r, nowMs))}</span>${link}</div></div></article>`;
 }
 
 function raceList(races, nowMs) {
   const dated = races.filter((r) => r.start).sort((a, b) => b.start.ms - a.start.ms);
   const rest = races.filter((r) => !r.start);
-  return `<div class="grid">${[...dated, ...rest].map((r) => raceCard(r, nowMs)).join('')}</div>`;
+  const legend = `<p class="legend"><span class="dist km-half">半程</span><span class="sep" aria-hidden="true">·</span><span class="dist km-10">10公里</span></p>`;
+  return `${legend}<div class="grid">${[...dated, ...rest].map((r) => raceCard(r, nowMs)).join('')}</div>`;
 }
 
 function shell(active, mastDate, lede, body) {
