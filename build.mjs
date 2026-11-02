@@ -194,7 +194,7 @@ function parseRaces(text) {
 function page(title, inner) {
   return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="${esc(BRAND)}。近期半程和 10 公里按开跑日从远到近排列，还能报名按上海时间对报名截止自动判断。"><title>${esc(title)}</title><link rel="stylesheet" href="style.css"></head><body>
 ${inner}
-<footer class="wrap foot"><p class="colophon"><span class="rule" aria-hidden="true"></span>数据来源：赛事官网及公开信息<span class="rule" aria-hidden="true"></span></p><p>报名是否开放，用上海时间对每场写死的起止时间自动比较。只写日期的判断时刻按当天 12:00。没有报名链接标「待公布」。报名以组委会最新公告为准。</p></footer></body></html>`;
+<footer class="wrap foot"><p class="colophon"><span class="rule" aria-hidden="true"></span>数据来源：赛事官网及公开信息<span class="rule" aria-hidden="true"></span></p><p>报名是否开放，用上海时间对每场写死的起止时间自动比较。只写日期的判断时刻按当天 12:00。没有报名链接标「待公布」。报名以组委会最新公告为准。</p></footer><script src="filter.js"></script></body></html>`;
 }
 
 const PIN = '<svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1.2a4.3 4.3 0 0 0-4.3 4.3C3.7 9 8 14.8 8 14.8s4.3-5.8 4.3-9.3A4.3 4.3 0 0 0 8 1.2zm0 5.8a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2z"/></svg>';
@@ -208,14 +208,16 @@ function raceCard(r, nowMs) {
   const distName = ten ? '10公里' : '半程';
   const distLen = ten ? '10公里' : '21.0975公里';
   const dist = ten ? 'km-10' : 'km-half';
-  return `<article class="card ${esc(r.status.kind)} ${dist}" id="${esc(r.id)}"><div class="card-top"><span class="tag">${esc(r.status.label)}</span><span class="card-date">${esc(cardWhen(r.start))}</span></div><div class="name"><span class="dist">${distName}</span><h3>${esc(r.name)}</h3></div><p class="place">${PIN}${esc(r.place)}</p><dl class="stats"><div><dt>${distName}</dt><dd>${distLen}</dd></div><div><dt>费用</dt><dd>${esc(r.fee)}</dd></div><div><dt>报名状态</dt><dd class="st">${esc(r.status.label)}</dd></div></dl><p class="sum">${esc(r.summary)}</p><div class="footline"><p class="win">★ ${esc(windowText(r))}</p><div class="aside"><span class="away">${CAL}${esc(countdown(r, nowMs))}</span>${link}</div></div></article>`;
+  const kmKey = ten ? '10' : 'half';
+  return `<article class="card ${esc(r.status.kind)} ${dist}" data-km="${kmKey}" id="${esc(r.id)}"><div class="card-top"><span class="tag">${esc(r.status.label)}</span><span class="card-date">${esc(cardWhen(r.start))}</span></div><div class="name"><span class="dist">${distName}</span><h3>${esc(r.name)}</h3></div><p class="place">${PIN}${esc(r.place)}</p><dl class="stats"><div><dt>${distName}</dt><dd>${distLen}</dd></div><div><dt>费用</dt><dd>${esc(r.fee)}</dd></div><div><dt>报名状态</dt><dd class="st">${esc(r.status.label)}</dd></div></dl><p class="sum">${esc(r.summary)}</p><div class="footline"><p class="win">★ ${esc(windowText(r))}</p><div class="aside"><span class="away">${CAL}${esc(countdown(r, nowMs))}</span>${link}</div></div></article>`;
 }
 
 function raceList(races, nowMs) {
   const dated = races.filter((r) => r.start).sort((a, b) => b.start.ms - a.start.ms);
   const rest = races.filter((r) => !r.start);
-  const legend = `<p class="legend"><span class="dist km-half">半程</span><span class="sep" aria-hidden="true">·</span><span class="dist km-10">10公里</span></p>`;
-  return `${legend}<div class="grid">${[...dated, ...rest].map((r) => raceCard(r, nowMs)).join('')}</div>`;
+  const filters = `<div class="legend filters" role="group" aria-label="按距离筛选"><button type="button" class="dist all on" data-filter="all" aria-pressed="true" aria-controls="race-grid">全部</button><span class="sep" aria-hidden="true">·</span><button type="button" class="dist km-half" data-filter="half" aria-pressed="false" aria-controls="race-grid">半程</button><span class="sep" aria-hidden="true">·</span><button type="button" class="dist km-10" data-filter="10" aria-pressed="false" aria-controls="race-grid">10公里</button></div>`;
+  const none = `<p class="filter-empty" hidden>这个距离没有赛事。</p>`;
+  return `${filters}<div class="grid" id="race-grid">${[...dated, ...rest].map((r) => raceCard(r, nowMs)).join('')}</div>${none}`;
 }
 
 function shell(active, mastDate, lede, body) {
@@ -262,6 +264,7 @@ const open = shell(
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
 fs.writeFileSync(path.join(OUT, 'style.css'), fs.readFileSync('src/style.css', 'utf8'));
+fs.copyFileSync('src/filter.js', path.join(OUT, 'filter.js'));
 fs.copyFileSync('src/title-ink.png', path.join(OUT, 'title-ink.png'));
 fs.writeFileSync(path.join(OUT, 'index.html'), page(BRAND, recent));
 fs.writeFileSync(path.join(OUT, 'open.html'), page(`还能报名 · ${BRAND}`, open));
