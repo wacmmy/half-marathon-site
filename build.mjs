@@ -205,7 +205,7 @@ function raceCard(r, nowMs) {
 }
 
 function raceList(races, nowMs) {
-  const dated = races.filter((r) => r.start).sort((a, b) => a.start.ms - b.start.ms);
+  const dated = races.filter((r) => r.start).sort((a, b) => b.start.ms - a.start.ms);
   const rest = races.filter((r) => !r.start);
   return `<div class="grid">${[...dated, ...rest].map((r) => raceCard(r, nowMs)).join('')}</div>`;
 }
