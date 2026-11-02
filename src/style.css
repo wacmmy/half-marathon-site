@@ -6,31 +6,35 @@
   --soft:#E8DFD0;
   --half:#1B3A5A;
   --ten:#1A5C50;
-  --serif:"Songti SC","Noto Serif CJK SC","Source Han Serif SC","STSong","PMingLiU","SimSun",serif;
+  --sans:-apple-system,"PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif;
+  --serif:"Noto Serif CJK SC","Songti SC","Source Han Serif SC",Georgia,serif;
 }
 *{box-sizing:border-box}
-body{margin:0;background-color:var(--bg);background-image:radial-gradient(rgba(28,25,23,.035) .6px,transparent .7px);background-size:3px 3px;color:var(--ink);font:16px/1.65 var(--serif)}
+body{margin:0;background-color:var(--bg);background-image:radial-gradient(rgba(28,25,23,.035) .6px,transparent .7px);background-size:3px 3px;color:var(--ink);font:16px/1.65 var(--sans)}
 a{color:inherit}
 a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.wrap{max-width:680px;margin:0 auto;padding:0 16px}
+.wrap{max-width:1000px;margin:0 auto;padding:0 16px}
 h1,h2,h3{font-family:var(--serif);font-weight:700}
 .mast{padding-bottom:4px}
 .mast-row{display:flex;justify-content:flex-end;align-items:center;padding-top:16px}
-.dateline{margin:0;color:var(--ink);font-family:var(--serif);font-size:13px;letter-spacing:.08em}
+.dateline{margin:0;color:var(--ink);font-size:13px;letter-spacing:.08em}
 .rule{width:22px;height:1px;background:var(--ink);flex:0 0 auto}
 .title{position:relative;margin:2px auto 0;padding-left:0;padding-right:0}
 .title img{display:block;width:100%;height:auto}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .mark{width:7px;height:7px;margin:10px auto 0;border-radius:50%;background:var(--accent)}
-.scope{margin:8px 0 0;text-align:center;font-weight:700;letter-spacing:.18em;font-size:14px}
+.scope{margin:8px 0 0;text-align:center;font-family:var(--serif);font-weight:700;letter-spacing:.18em;font-size:14px}
 .tabs{display:flex;margin-top:12px;border:1px solid var(--ink);background:transparent;padding:0}
-.tabs a{position:relative;flex:1;min-height:48px;display:flex;align-items:center;justify-content:center;padding:10px 8px 12px;color:var(--ink);font-family:var(--serif);font-weight:700;font-size:17px;text-decoration:none;background:transparent}
+.tabs a{position:relative;flex:1;min-height:48px;display:flex;align-items:center;justify-content:center;padding:10px 8px 12px;color:var(--ink);font-weight:700;font-size:17px;text-decoration:none;background:transparent}
 .tabs a+a{border-left:1px solid var(--ink)}
 .tabs a.on::after{content:"";position:absolute;left:50%;bottom:8px;width:4.2em;height:3px;transform:translateX(-50%);background:var(--accent)}
 .tabs a:hover{color:var(--accent);background:transparent}
 .lede{margin:12px 0 0;color:var(--ink);font-size:15px}
 .sheet{padding-bottom:4px}
 .grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}
+@media(min-width:900px){
+  .grid{grid-template-columns:1fr 1fr}
+}
 .card{display:flex;flex-direction:column;background:transparent;border:1px solid var(--ink);border-radius:0;padding:12px 12px 10px}
 .grid .card[hidden]{display:none}
 .card.km-half{border-left:4px solid var(--half)}
