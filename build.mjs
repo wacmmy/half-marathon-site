@@ -139,7 +139,7 @@ function assess(race, now) {
       return { kind: 'pending', label: race.statusLabel || '报名期内', open: false };
     }
     if (!race.entry) return { kind: 'pending', label: '待公布', open: true };
-    return { kind: 'open', label: '还能报名', open: true };
+    return { kind: 'open', label: race.statusLabel || '还能报名', open: true };
   }
   if (race.draw) {
     if (now < race.draw.ms) return { kind: 'draw', label: '待抽签', open: false };
@@ -205,7 +205,7 @@ function parseRaces(text) {
 function page(title, inner) {
   return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="${esc(BRAND)}。近期半程和 10 公里按开跑日从远到近排列，还能报名按上海时间对报名截止自动判断。"><title>${esc(title)}</title><link rel="stylesheet" href="style.css"></head><body>
 ${inner}
-<footer class="wrap foot"><p class="colophon"><span class="rule" aria-hidden="true"></span>数据来源：赛事官网及公开信息<span class="rule" aria-hidden="true"></span></p><p>报名是否开放，用上海时间对写明起止时刻的场次自动比较；只写日期、下午或分批放号的，页面上不向读者编造具体钟点。有余量未核或分批放号的，不进「还能报名」。报名以组委会最新公告为准。</p></footer><script src="filter.js"></script></body></html>`;
+<footer class="wrap foot"><p class="colophon"><span class="rule" aria-hidden="true"></span>数据来源：赛事官网及公开信息<span class="rule" aria-hidden="true"></span></p><p>报名是否开放，用上海时间对写明起止时刻的场次自动比较；只写日期、下午或未写钟点的，页面上不向读者编造具体钟点。报名期内的场次列入「还能报名」；分批放号及余量未知单独注明，以官方入口为准。窗口完全未知者仍待核实；已确认截止或满额且不再放号者不列入。报名以组委会最新公告为准。</p></footer><script src="filter.js"></script></body></html>`;
 }
 
 const PIN = '<svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1.2a4.3 4.3 0 0 0-4.3 4.3C3.7 9 8 14.8 8 14.8s4.3-5.8 4.3-9.3A4.3 4.3 0 0 0 8 1.2zm0 5.8a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2z"/></svg>';
