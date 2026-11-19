@@ -6,7 +6,7 @@
 - 对照11/16版34场，确认新增三场：西岸10K、NB上海10K、2027元旦嘉定半马；并非只围绕三场搜索：目录、新闻、全国当届详情与网络补漏快照共112页，范围及失败见日志。
 - 额外实质修正两项：总裁10K官方移动端已满员截止；西山漾增加无包10K60元选项，标准120元保留。
 - 太仓/西山漾/嘉定入口读到报名中；西岸分批放号，仅报名期内不保证实时余量；NB抽签已公布但候补截止图片待父级读，不编时间。
-- 十组来源均已处理，但上马JS、有迈故障、大丰刷新及汇跑第6页/部分图片仍有缺口。不能把“读到页面”说成完整全网覆盖。发布可先补已证实内容，说明未核项；若要宣称本轮完整结束，须先完成browser_tasks.md。
+- 十组来源均已处理；上马 JS 已于 2026-11-19 13:42 浏览器只读补核（导航与 2026 上海 10K 规程/延期/补充抽签公告）。仍有有迈故障、大丰刷新及汇跑第6页/部分图片等缺口。不能把“读到页面”说成完整全网覆盖。
 
 ## 每源检查范围
 |来源|实际检查范围|结果|
@@ -14,7 +14,7 @@
 |huipao|目录1-30页（第6页首次200无链接保留缺口），新闻1-6页；翻至2024；NB在目录第10页；初始只看首页确会漏|partial_one_page_and_images|
 |guolong|赛事目录1-4页全部（至2018）；新闻/公告各首页，已跨至2025/2024；总裁PC/移动状态差异核实|readable_current_catalog|
 |xuanda|新闻、当届规程、报名须知；当前2026站已读，报名JS余量未核|readable_rules_live_inventory_unknown|
-|donghao|HTTP200纯JS；未渲染；不可记无新增|browser_required|
+|donghao|2026-11-19 13:42 浏览器读首页导航与 10K 规程/延期/补充抽签（id=3366）|readable_browser|
 |xempower|公司全国首页/新闻及5个链接赛事站；佘山2026、南京2026；阳澄湖/苏马/天目湖链接站仍2025，未把旧站当2026|partial_stale_sites|
 |umay|已确认官网504/SSL，嘉兴官方站500；采用地方官方发布会公告补证嘉兴，不冒称全国目录已扫|failed_catalog|
 |borun|目录1-8页翻至2025；从图片卡href下钻24个2026赛事详情，其中2个详情SSL失败；新闻首页；本地两场诸暨/象山已过，未见新增符合范围未来条目|partial_with_failed_snapshots|
@@ -55,7 +55,7 @@ source_registry.json保存现有十组、候选增补及盲点；baseline.json�
 - https://reg.zuicool.com/57267：failed，SSLError: HTTPSConnectionPool(host='reg.zuicool.com', port=443): Max retries exceeded with url: /57267 (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1029)')))
 - https://gw.iborun.cn/2026-p00166p1.html：failed，SSLError: HTTPSConnectionPool(host='gw.iborun.cn', port=443): Max retries exceeded with url: /2026-p00166p1.html (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1029)')))
 - https://gw.iborun.cn/2026-p00179p1.html：failed，SSLError: HTTPSConnectionPool(host='gw.iborun.cn', port=443): Max retries exceeded with url: /2026-p00179p1.html (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1029)')))
-- https://static.shang-ma.com/web/index.html：browser_required，已读原始页200但无赛事正文；无浏览器，交父级，不记成功
+- https://static.shang-ma.com/web/index.html：readable_browser，2026-11-19 13:42（上海）浏览器已读：导航含上马 12/6、健身跑 12/5（不收录）、10K 12/27，女子半马 3/8、上海半马 3/15、苏州河半马 3/28 均已过；首页未见 2027 日期或新报名公告，不宣称全站未来绝无。规程 eventId=235、延期 id=3353、补充抽签 id=3366（11/18 下午出补充签、中签缴费至 11/20 17:00）已关联
 - https://www.umaysports.cn/：failed，WebFetch504，公开直接请求SSL错误；停止重复请求
 - http://jiaxingmarathon.umaysports.cn/：failed，公开直接请求500，使用嘉兴官方地方公告补证但目录未完成
 - https://dafengsports.saihuitong.com/articles?mid=76061：partial_prior_snapshot，先前WebFetch可读2025/2024新闻，后续公开请求SSL错误，未再盲重试；公司目录不算本轮完整
