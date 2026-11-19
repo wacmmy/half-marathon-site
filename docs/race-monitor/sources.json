@@ -1,0 +1,170 @@
+{
+  "version": 1,
+  "updated_at": "2026-11-19T13:40:31+08:00",
+  "schedule": "existing weekly Monday ~09:00 Asia/Shanghai ±15m; no new frequency",
+  "sources": [
+    {
+      "id": "huipao",
+      "name": "无锡汇跑体育有限公司",
+      "priority": 0,
+      "urls": [
+        "https://www.ihuipao.com/race?page=1",
+        "https://www.ihuipao.com/news?page=1"
+      ],
+      "channels": [
+        "汇跑赛事",
+        "参赛助手"
+      ],
+      "blind_spots": "平台也代售其他运营商赛事；不要把平台当全部赛事运营方；分页混推荐卡"
+    },
+    {
+      "id": "guolong",
+      "name": "上海国龙体育文化发展有限公司",
+      "priority": 0,
+      "urls": [
+        "https://guolongsports.saihuitong.com/events?mid=49897",
+        "https://guolongsports.saihuitong.com/articles?mid=49914",
+        "https://guolongsports.saihuitong.com/articles?mid=49913"
+      ],
+      "channels": [
+        "国龙体育"
+      ],
+      "blind_spots": "接驳/证书/欢乐跑与主赛事分开；我要报名不证明有余量"
+    },
+    {
+      "id": "xuanda",
+      "name": "上海萱达文化传播有限公司（2026西岸10K承办）",
+      "priority": 0,
+      "urls": [
+        "https://www.xuhui-marathon.com/html/news.html",
+        "https://www.xuhui-marathon.com/html/jsgc.html",
+        "https://www.xuhui-marathon.com/html/bmxz.html"
+      ],
+      "channels": [
+        "汇体育",
+        "上海西岸10K"
+      ],
+      "blind_spots": "单赛事站而非公司总目录；摘要仍可能是2025旧名；报名按钮JS"
+    },
+    {
+      "id": "donghao",
+      "name": "东浩兰生路跑（具体法人按赛事核实）",
+      "priority": 0,
+      "urls": [
+        "https://static.shang-ma.com/web/index.html"
+      ],
+      "channels": [],
+      "blind_spots": "JS目录，本代理无浏览器，抓取200空白不算查完"
+    },
+    {
+      "id": "xempower",
+      "name": "南京善跑体育科技有限公司",
+      "priority": 0,
+      "urls": [
+        "https://www.xempower.cn/",
+        "https://www.xempower.cn/video/news"
+      ],
+      "channels": [],
+      "blind_spots": "公司站标题与日期偶有错配；详情多微信外链，需读各赛事当届官网"
+    },
+    {
+      "id": "umay",
+      "name": "江苏有迈体育发展股份有限公司",
+      "priority": 0,
+      "urls": [
+        "https://www.umaysports.cn/",
+        "http://jiaxingmarathon.umaysports.cn/"
+      ],
+      "channels": [],
+      "blind_spots": "本日504/SSL/500故障已报告；不重复自动重试；用官方地方公告补充不代表公司目录完整"
+    },
+    {
+      "id": "borun",
+      "name": "广州博润体育科技有限公司",
+      "priority": 1,
+      "urls": [
+        "https://gw.iborun.cn/products/",
+        "https://gw.iborun.cn/info/"
+      ],
+      "channels": [],
+      "blind_spots": "赛事卡只有图片且无标题；必须收href进详情；日期不要读倒计时脚本"
+    },
+    {
+      "id": "rtt",
+      "name": "上海久事体育赛事运营管理有限公司＋上海蒸蒸日上文化传媒有限公司",
+      "priority": 0,
+      "urls": [
+        "https://www.runthetrack.com/news/page/1",
+        "https://www.runthetrack.com/regulation",
+        "https://www.runthetrack.com/regnotice"
+      ],
+      "channels": [
+        "蒸蒸日上"
+      ],
+      "blind_spots": "/registration旧页仍是2026；2027须用/regnotice及/regulation，不能继承旧报名时间"
+    },
+    {
+      "id": "shengba",
+      "name": "圣巴（上海）文化传播有限公司；汇跑联合运营",
+      "priority": 1,
+      "urls": [
+        "https://huangpu.marathon.org.cn/",
+        "https://huangpu.marathon.org.cn/page/q97BYe8DOB6QmL54MpQv.html"
+      ],
+      "channels": [
+        "参赛助手"
+      ],
+      "blind_spots": "单赛事官网；与汇跑去重但不可删除独立赛事来源"
+    },
+    {
+      "id": "dafeng",
+      "name": "浙江大丰体育文化发展有限公司",
+      "priority": 1,
+      "urls": [
+        "https://dafengsports.saihuitong.com/articles?mid=76061",
+        "http://www.jdim.org/p/hzim/match/textrule.jsf"
+      ],
+      "channels": [
+        "金华金漪湖半程马拉松"
+      ],
+      "blind_spots": "本日公司新闻SSL故障；已读快照最新仍2025；历史杭马运营不等于2026仍运营"
+    },
+    {
+      "id": "suao",
+      "name": "江苏苏奥体育科技有限公司",
+      "priority": 0,
+      "type": "operator",
+      "status": "operator_confirmed; corporate_catalog_missing",
+      "evidence": "https://paobu.saihuitong.com/event?id=907169&mid=85",
+      "operator_evidence_type": "公开报名平台所载当届完整规程（非公司总目录）",
+      "channels_confirmed_by_rule": [
+        "坤悦健康APP/小程序",
+        "太仓中德半程马拉松公众号"
+      ],
+      "known_event_sources": [
+        "https://reg.zuicool.com/81804",
+        "https://reg.zuicool.com/32366",
+        "https://reg.zuicool.com/56761"
+      ],
+      "blind_spots": "主办中国田协不等于运营方；平台深链可巡但不能冒充苏奥官方总目录；xishanmls官网500，需修复/替代官方总入口；不要引用404应用宝页"
+    },
+    {
+      "id": "standard_chartered_10k",
+      "name": "渣打上海10公里跑品牌赛事线",
+      "priority": 1,
+      "type": "brand_event_not_verified_operator",
+      "status": "public_official_event_site_confirmed; operator_not_identified",
+      "urls": [
+        "https://sc.chinarun.com/"
+      ],
+      "known_event": "2026-05-16上海10K已过，监测下一届，不补入仍可报名",
+      "blind_spots": "渣打是品牌举办/赞助线，不能虚构运营公司；CHINARUN技术支持不是运营证明"
+    }
+  ],
+  "implementation_notes": [
+    "父级核对并把新增来源加入例行；本代理未更改例行",
+    "源旧地址失效时保留失败记录；不要悄悄绕过登录或强行改状态",
+    "嘉定新增/regnotice及2027报名86950；/registration明确旧届",
+    "2026-11-19: 父级已将 suao、standard_chartered_10k 并入 sources 并去重。"
+  ]
+}
