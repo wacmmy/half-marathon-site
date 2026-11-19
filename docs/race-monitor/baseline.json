@@ -17067,8 +17067,15 @@
       "registration_last_batch": "2026-11-22T11:00:00+08:00",
       "registration_close_time": null,
       "release_schedule": "11月18日至22日每天11:00，每天1000名，报满即止；11月22日11:00是最后一次放号，不是已知的当日最终截止钟点",
-      "status": "报名期内，分批放号；实时余量未核实",
-      "in_open_list": false,
+      "status": "报名期内，分批放号；实时余量以官方报名端为准",
+      "in_open_list": true,
+      "publish_corrections": [
+        {
+          "corrected_at": "2026-11-19",
+          "issue": "站点曾设 exclude_open，误将西岸排除出「还能报名」",
+          "resolution": "移除强制排除；已知官方放号期内列入 open，标签保留「报名期内·分批放号」，余量未知单独注明"
+        }
+      ],
       "entry_channels": [
         "汇体育公众号",
         "上海西岸10K公众号"
