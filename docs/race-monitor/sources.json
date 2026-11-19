@@ -51,10 +51,13 @@
       "name": "东浩兰生路跑（具体法人按赛事核实）",
       "priority": 0,
       "urls": [
-        "https://static.shang-ma.com/web/index.html"
+        "https://static.shang-ma.com/web/index.html",
+        "https://static.shang-ma.com/web/matchDetail/index.html?eventId=235",
+        "https://static.shang-ma.com/web/notesDetail/index.html?id=3353&eventId=235",
+        "https://static.shang-ma.com/web/notesDetail/index.html?id=3366"
       ],
       "channels": [],
-      "blind_spots": "JS目录，本代理无浏览器，抓取200空白不算查完"
+      "blind_spots": "JS站须浏览器渲染；2026-11-19 13:42 上海浏览器已读首页导航与 10K 规程/延期/补充抽签公告，仍须下轮用浏览器复扫新公告"
     },
     {
       "id": "xempower",

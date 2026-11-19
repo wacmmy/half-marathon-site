@@ -1219,10 +1219,10 @@
   {
     "group": "donghao",
     "url": "https://static.shang-ma.com/web/index.html",
-    "status": "browser_required",
-    "checked_at": null,
+    "status": "readable_browser",
+    "checked_at": "2026-11-19T13:42:00+08:00",
     "http_status": 200,
-    "reason": "已读原始页200但无赛事正文；无浏览器，交父级，不记成功",
+    "observation": "浏览器已读2026-11-19 13:42（上海）：当前导航含上海马拉松12/6、上马健身跑12/5（不属收录距离）、10K12/27，女子半马3/8、上海半马3/15、苏州河半马3/28均已过；首页/导航未见2027日期或报名公告，不宣称全站未来绝无。赛事规程https://static.shang-ma.com/web/matchDetail/index.html?eventId=235，延期公告https://static.shang-ma.com/web/notesDetail/index.html?id=3353&eventId=235，补充抽签公告https://static.shang-ma.com/web/notesDetail/index.html?id=3366",
     "checked_date": "2026-11-19"
   },
   {
