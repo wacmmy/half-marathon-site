@@ -135,6 +135,9 @@ function assess(race, now) {
   const end = race.closedAt && race.closedAt.ms < race.regEnd.ms ? race.closedAt : race.regEnd;
   if (race.regStart && now < race.regStart.ms) return { kind: 'pending', label: '未开始', open: false };
   if (now <= end.ms) {
+    if (race.excludeOpen) {
+      return { kind: 'pending', label: race.statusLabel || '报名期内', open: false };
+    }
     if (!race.entry) return { kind: 'pending', label: '待公布', open: true };
     return { kind: 'open', label: '还能报名', open: true };
   }
@@ -146,6 +149,11 @@ function assess(race, now) {
 }
 
 function windowText(race) {
+  if (race.regWindow) {
+    let s = race.regWindow;
+    if (race.gate) s += ` · ${race.gate}`;
+    return s;
+  }
   if (!race.regStart && !race.regEnd) return '报名窗口待公布';
   const a = race.regStart ? race.regStart.short : '待公布';
   const b = race.regEnd ? race.regEnd.short : '待公布';
@@ -184,6 +192,9 @@ function parseRaces(text) {
         regEnd: parseWhen(kv.reg_end),
         draw: parseWhen(kv.draw),
         closedAt: parseWhen(kv.closed_at),
+        regWindow: kv.reg_window || '',
+        statusLabel: kv.status_label || '',
+        excludeOpen: kv.exclude_open === 'true',
       });
     }
   }
@@ -194,7 +205,7 @@ function parseRaces(text) {
 function page(title, inner) {
   return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="${esc(BRAND)}。近期半程和 10 公里按开跑日从远到近排列，还能报名按上海时间对报名截止自动判断。"><title>${esc(title)}</title><link rel="stylesheet" href="style.css"></head><body>
 ${inner}
-<footer class="wrap foot"><p class="colophon"><span class="rule" aria-hidden="true"></span>数据来源：赛事官网及公开信息<span class="rule" aria-hidden="true"></span></p><p>报名是否开放，用上海时间对每场写死的起止时间自动比较。只写日期的判断时刻按当天 12:00。没有报名链接标「待公布」。报名以组委会最新公告为准。</p></footer><script src="filter.js"></script></body></html>`;
+<footer class="wrap foot"><p class="colophon"><span class="rule" aria-hidden="true"></span>数据来源：赛事官网及公开信息<span class="rule" aria-hidden="true"></span></p><p>报名是否开放，用上海时间对写明起止时刻的场次自动比较；只写日期、下午或分批放号的，页面上不向读者编造具体钟点。有余量未核或分批放号的，不进「还能报名」。报名以组委会最新公告为准。</p></footer><script src="filter.js"></script></body></html>`;
 }
 
 const PIN = '<svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1.2a4.3 4.3 0 0 0-4.3 4.3C3.7 9 8 14.8 8 14.8s4.3-5.8 4.3-9.3A4.3 4.3 0 0 0 8 1.2zm0 5.8a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2z"/></svg>';
@@ -241,7 +252,7 @@ const races = parseRaces(secs['赛事']).map((r) => ({ ...r, status: assess(r, n
 const openRaces = races.filter((r) => r.status.open);
 const notes = (secs['附注'] || '').split('\n').map((l) => l.trim()).filter(Boolean);
 const srcItems = bullets(secs['来源'] || '');
-const clock = `${fmtNow(now.ms)}（上海${now.pinned && now.assumedNoon ? '，只给了日期，按 12:00' : ''}）`;
+const clock = `${fmtNow(now.ms)}（上海）`;
 const noteHtml = notes.length ? `<div class="note">${notes.map((n) => `<p>${esc(n)}</p>`).join('')}</div>` : '';
 const srcHtml = srcItems.length ? `<h2 class="sec">依据</h2><ul class="srcs">${srcItems.map((x) => `<li>${esc(x).replace(/(https?:\/\/[^\s<，。）)]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')}</li>`).join('')}</ul>` : '';
 
