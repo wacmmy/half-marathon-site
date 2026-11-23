@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "captured_at": "2026-11-19T13:35:55+08:00",
+  "captured_at": "2026-11-23T10:30:00+08:00",
   "timezone": "Asia/Shanghai",
-  "site_version_compared": "2026-11-16 09:38 Asia/Shanghai; 34 races",
+  "site_version_compared": "2026-11-19 版 37 场；对照 2026-11-23 巡检",
   "scope": "保留现站上海/杭州出发约2小时地理口径，仅半程及公路10K；不设未来三个月上限；全国目录先发现再筛",
-  "completeness": "partial; browser/failed-source gaps remain; do not claim full coverage",
+  "completeness": "固定名单12组来源已查；有迈公司目录与锡山官网仍失败；西岸实时报名为微信JS，余量未核；汇跑第6页缺口已关闭；大丰/博润上轮SSL故障已恢复；东浩本轮浏览器渲染成功",
   "sources": [
     {
       "group": "huipao",
@@ -16997,57 +16997,67 @@
       ]
     }
   ],
-  "assessment_at": "2026-11-19T13:40:31+08:00",
+  "assessment_at": "2026-11-23T10:30:00+08:00",
   "source_observations": [
     {
       "group": "huipao",
-      "coverage": "目录1-30页（第6页首次200无链接保留缺口），新闻1-6页；翻至2024；NB在目录第10页；初始只看首页确会漏",
-      "status": "partial_one_page_and_images"
+      "coverage": "目录1–12页（含第6页本轮可读），新闻1–4页；范围内无新增，新ID主要为北京赛事",
+      "status": "readable_page6_gap_closed"
     },
     {
       "group": "guolong",
-      "coverage": "赛事目录1-4页全部（至2018）；新闻/公告各首页，已跨至2025/2024；总裁PC/移动状态差异核实",
+      "coverage": "赛事目录1–2页至已知条目；总裁PC+移动均为报名已截止；金山平湖样本已结束",
       "status": "readable_current_catalog"
     },
     {
       "group": "xuanda",
-      "coverage": "新闻、当届规程、报名须知；当前2026站已读，报名JS余量未核",
-      "status": "readable_rules_live_inventory_unknown"
+      "coverage": "新闻、规程、报名须知；11/23已过公布报名期11/18–22，报名JS余量未核",
+      "status": "readable_registration_period_ended"
     },
     {
       "group": "donghao",
-      "coverage": "HTTP200纯JS；未渲染；不可记无新增",
-      "status": "browser_required"
+      "coverage": "2026-11-23浏览器渲染首页、公告、10K详情；11/16后无新公告；补充抽签缴费窗已过",
+      "status": "browser_ok"
     },
     {
       "group": "xempower",
-      "coverage": "公司全国首页/新闻及5个链接赛事站；佘山2026、南京2026；阳澄湖/苏马/天目湖链接站仍2025，未把旧站当2026",
-      "status": "partial_stale_sites"
+      "coverage": "公司首页、新闻中心；最新公开稿仍为2026春夏已办赛事",
+      "status": "readable_no_new_in_scope"
     },
     {
       "group": "umay",
-      "coverage": "已确认官网504/SSL，嘉兴官方站500；采用地方官方发布会公告补证嘉兴，不冒称全国目录已扫",
+      "coverage": "官网SSL、嘉兴站500仍失败；嘉兴完赛用新华网/中新网补证",
       "status": "failed_catalog"
     },
     {
       "group": "borun",
-      "coverage": "目录1-8页翻至2025；从图片卡href下钻24个2026赛事详情，其中2个详情SSL失败；新闻首页；本地两场诸暨/象山已过，未见新增符合范围未来条目",
-      "status": "partial_with_failed_snapshots"
+      "coverage": "products/info SSL恢复；目录1–4页与基线无比新2026/2027详情URL",
+      "status": "readable_ssl_recovered"
     },
     {
       "group": "rtt",
-      "coverage": "新闻1-3页翻至2023；2027规程/regnotice已核；/registration和gole查询页2026旧版；平台86950报名中",
+      "coverage": "新闻含赛事包12/28–31预告；86950仍报名中",
       "status": "readable_current_event"
     },
     {
       "group": "shengba",
-      "coverage": "黄浦赛事首页及2026规程；无2027新公告证据；独立公司目录未找到",
+      "coverage": "黄浦官网；无2027新公告",
       "status": "readable_single_event_only"
     },
     {
       "group": "dafeng",
-      "coverage": "先前公司新闻可读但最新2025，本轮快照SSL；金漪湖官方当届规程先前可读、本轮采集500；保留故障，不能宣布完整",
-      "status": "partial_failed_refresh"
+      "coverage": "新闻/报名/公告HTTP可读（SSL恢复）；无符合范围新赛",
+      "status": "readable_ssl_recovered"
+    },
+    {
+      "group": "suao",
+      "coverage": "最酷深链81804/32366/56761可读；xishanmls证书失败",
+      "status": "partial_corporate_catalog_missing"
+    },
+    {
+      "group": "standard_chartered_10k",
+      "coverage": "仍2026-05-16届",
+      "status": "readable_monitor_next"
     }
   ],
   "known_race_records": [
@@ -17067,13 +17077,18 @@
       "registration_last_batch": "2026-11-22T11:00:00+08:00",
       "registration_close_time": null,
       "release_schedule": "11月18日至22日每天11:00，每天1000名，报满即止；11月22日11:00是最后一次放号，不是已知的当日最终截止钟点",
-      "status": "报名期内，分批放号；实时余量以官方报名端为准",
-      "in_open_list": true,
+      "status": "官方公布报名期11/18–22已过；不再列入还能报名",
+      "in_open_list": false,
       "publish_corrections": [
         {
           "corrected_at": "2026-11-19",
           "issue": "站点曾设 exclude_open，误将西岸排除出「还能报名」",
           "resolution": "移除强制排除；已知官方放号期内列入 open，标签保留「报名期内·分批放号」，余量未知单独注明"
+        },
+        {
+          "corrected_at": "2026-11-23",
+          "issue": "官方分批放号期已于11/22结束，11/23巡检移出还能报名",
+          "resolution": "reg_end落到公布最后一天11/22（不展示编造23:59）；摘要写明报名期已过"
         }
       ],
       "entry_channels": [
@@ -17189,8 +17204,9 @@
       "kind": "directory",
       "url": "https://gw.iborun.cn/products/",
       "checked_at": "2026-11-19T13:35:21+08:00",
-      "status": "failed",
-      "error": "SSLError: HTTPSConnectionPool(host='gw.iborun.cn', port=443): Max retries exceeded with url: /products/ (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1029)')))"
+      "status": "readable_recovered",
+      "error": "2026-11-23 SSL恢复可读；保留历史故障记录",
+      "checked_date": "2026-11-23"
     },
     {
       "group": "rtt",
@@ -17239,10 +17255,10 @@
       "group": "donghao",
       "url": "https://static.shang-ma.com/web/index.html",
       "status": "readable_browser",
-      "checked_at": "2026-11-19T13:42:00+08:00",
+      "checked_at": "2026-11-23T10:15:00+08:00",
       "http_status": 200,
-      "observation": "浏览器已读2026-11-19 13:42（上海）：当前导航含上海马拉松12/6、上马健身跑12/5（不属收录距离）、10K12/27，女子半马3/8、上海半马3/15、苏州河半马3/28均已过；首页/导航未见2027日期或报名公告，不宣称全站未来绝无。赛事规程https://static.shang-ma.com/web/matchDetail/index.html?eventId=235，延期公告https://static.shang-ma.com/web/notesDetail/index.html?id=3353&eventId=235，补充抽签公告https://static.shang-ma.com/web/notesDetail/index.html?id=3366",
-      "checked_date": "2026-11-19"
+      "observation": "2026-11-23浏览器渲染成功；11/16后无新公告；10K补充抽签缴费至11/20 17:00已过，报名按钮禁用",
+      "checked_date": "2026-11-23"
     },
     {
       "group": "umay",
@@ -17264,18 +17280,18 @@
     {
       "group": "dafeng",
       "url": "https://dafengsports.saihuitong.com/articles?mid=76061",
-      "status": "partial_prior_snapshot",
+      "status": "readable_recovered",
       "checked_at": null,
-      "reason": "先前WebFetch可读2025/2024新闻，后续公开请求SSL错误，未再盲重试；公司目录不算本轮完整",
-      "checked_date": "2026-11-19"
+      "reason": "2026-11-23公司新闻/报名/公告目录HTTP可读，上轮SSL失败已恢复；新闻最新仍2025",
+      "checked_date": "2026-11-23"
     },
     {
       "group": "huipao",
       "url": "https://www.ihuipao.com/race?page=6",
-      "status": "failed_or_empty",
-      "checked_at": "2026-11-19T13:31:16+08:00",
-      "http_status": 200,
-      "reason": "首次请求200但无赛事链接，保留分页缺口，未偷偷视为成功"
+      "status": "readable",
+      "checked_at": "2026-11-23T09:21:12+08:00",
+      "reason": "2026-11-23可读，上轮200无链接缺口关闭；含金山平湖汇跑页VMOAJr4DZapPmwlezPka及北京等范围外ID",
+      "checked_date": "2026-11-23"
     },
     {
       "group": "race_detail",
@@ -17298,10 +17314,10 @@
       "group": "suao",
       "url": "https://www.xishanmls.com/about/instructions.html",
       "status": "failed",
-      "checked_date": "2026-11-19",
+      "checked_date": "2026-11-23",
       "checked_at": null,
       "method": "WebFetch/公开网页读取（精确请求时刻未单独记录）",
-      "observation": "HTTP500；未重复重试"
+      "observation": "2026-11-23证书过期/校验失败；公司总目录仍缺"
     },
     {
       "group": "suao",
@@ -17347,6 +17363,50 @@
       "checked_at": null,
       "method": "WebFetch",
       "observation": "本轮收尾重取超时；不把该页当本次重新核验成功，不重复请求。西岸现行规程和报名须知已独立核实。"
+    },
+    {
+      "group": "wuzhong",
+      "kind": "official",
+      "url": "https://no1.suzhou-marathon.com/",
+      "status": "failed",
+      "checked_date": "2026-11-23",
+      "reason": "证书主机名不匹配，不能记查完；最酷/中国马拉松仍拟定"
+    },
+    {
+      "group": "wse",
+      "kind": "official",
+      "url": "https://www.wse.run/p/match",
+      "status": "failed_or_empty",
+      "checked_date": "2026-11-23",
+      "observation": "HTTP200空白JS页，未渲染"
+    },
+    {
+      "group": "xuanda",
+      "kind": "registration",
+      "url": "https://www.xuhui-marathon.com/html/bmxz.html",
+      "status": "js_wechat_inventory_unknown",
+      "checked_date": "2026-11-23",
+      "observation": "参赛报名为官网JS跳转微信，实时余量未核"
     }
+  ],
+  "known_huipao_catalog_ids_page_6_2026_11_23": [
+    "19vlORY0bkVlmM3a8N4W",
+    "1qM4G6eD2zBoDYpZzn2B",
+    "1r4zBOejA3xemv89qVxQ",
+    "4NeEAkw0RnJ50v9x3WJM",
+    "4NeEAkw0RnQM0v9x3WJM",
+    "EA63XdLj8kBqDJqwoMrx",
+    "JlrPG3eDQNzOjYWbQMv8",
+    "L1ozbl9DxeWgj8Y2BZEn",
+    "L51XZa20wAqMDAM6vG98",
+    "VMOAJr4DZapPmwlezPka",
+    "XrYE2g8DvQnxm647y53e",
+    "XrYE2g8DvQyGm647y53e",
+    "aOMyZXAmWa2ljlk81eBQ",
+    "bwkarNB0GEYaDR1LMg4A",
+    "bwkarNB0GEv7DR1LMg4A",
+    "n6MVGlkDopQOjwvZWQB3",
+    "n6MVGlkDopw6jwvZWQB3",
+    "r5vKA2RDzq2EmnGwWq8b"
   ]
 }
